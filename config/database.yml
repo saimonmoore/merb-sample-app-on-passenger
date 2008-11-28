@@ -13,3 +13,6 @@
 :production:
   <<: *defaults
   :database: hello_merb_production
+
+:rake:
+  <<: *defaults
