@@ -21,8 +21,4 @@ dependency "dm-aggregates", dm_gems_version
 dependency "dm-migrations", dm_gems_version   
 dependency "dm-timestamps", dm_gems_version   
 dependency "dm-types", dm_gems_version        
-dependency "dm-validations", dm_gems_version  
-
-# My depedencies
-# dependency "do-mysql", "0.9.9"
-# dependency "haml",     "2.1.0"
+dependency "dm-validations", dm_gems_version

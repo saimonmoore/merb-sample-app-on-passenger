@@ -10,6 +10,7 @@
 - mime-types (>= 0, runtime)
 - thor (>= 0.9.7, runtime)
 - webrat (>= 0.3.1, development)
+- mongrel (>= 1.1.4, runtime)
 
 - merb_datamapper (>= 1.0.3, runtime) #Note the underscore
 - merb-action-args (>= 1.0.3, runtime)
@@ -31,5 +32,4 @@
 - dm-timestamps (>= 0.9.7, runtime)   
 - dm-types (>= 0.9.7, runtime)        
 - dm-validations (>= 0.9.7, runtime)
-
-- mongrel (>= 1.1.4, runtime)
+- do_mysql (>= 0.9.9, runtime)  #Note the underscore
