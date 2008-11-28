@@ -3,12 +3,12 @@
     #img{:src => "/images/merb.jpg"}
     %h2
       pocket rocket web framework
-    %hr
+    %hr/
 
   #left-container
     %h3
-     Exception
-    %p=request.exceptions.first.message
+      Exception
+    %p= request.exceptions.first.message
 
   #main-container
     %h3
@@ -22,31 +22,24 @@
       How to add a mime-type
     %pre
       %code
-        Merb.add_mime_type :pdf, :to_pdf, %w[application/pdf], &quot;Content-Encoding&quot; =&gt; &quot;gzip&quot;
+        ~ "Merb.add_mime_type :pdf, :to_pdf, %w[application/pdf], &quot;Content-Encoding&quot; =&gt; &quot;gzip&quot;"
 
     %h3
       What this means is:
     %ul
-      %li Add a mime-type for :pdf
       %li 
-        Register the method for converting objects to PDF as 
-        %code="#to_pdf"
-        .
-      %li 
-        Register the incoming mime-type "Accept" header as 
-        %code="application/pdf"
-        .
-      %li 
-        Specify a new header for PDF types so it will set 
-        %code="Content-Encoding"
-        to gzip.
+        Add a mime-type for :pdf
+      %li~"Register the method for converting objects to PDF as <code>to_pdf</code>."
+      %li~"Register the incoming mime-type \"Accept\" header as  <code>application/pdf</code>."
+      %li~"Specify a new header for PDF types so it will set <code>Content-Encoding</code> to gzip."
 
     %h3 You can then do:
     %pre
       %code
-        class Foo &lt; Application
-          provides :pdf
-        end
+        :preserve
+          class Foo &lt; Application
+            provides :pdf
+          end
 
     %h3
       Where can I find help?
@@ -68,14 +61,10 @@
 
     %h3
       How do I edit this page?
-    %p
-      You can change what people see when this happens by editing 
-      %tt
-        app/views/exceptions/not_acceptable.html.erb
-      . 
+    %p~"You can change what people see when this happens by editing <tt>app/views/exceptions/not_acceptable.html.erb</tt>."
 
   #footer-container
-    %hr
+    %hr/
     .left
     .right
       &copy; 2008 the merb dev team
