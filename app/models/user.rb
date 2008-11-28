@@ -13,5 +13,8 @@ class User
   
   property :id,     Serial
   property :login,  String
+  property :first_name,  String
+  
+  has n, :posts
   
 end

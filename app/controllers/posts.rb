@@ -4,12 +4,12 @@ class Posts < Application
   before :ensure_authenticated, :exclude => [:index, :show]
 
   def index
-    @posts = Post.all
+    @posts = session.user ? session.user.posts.all : Post.all
     display @posts
   end
 
   def show(id)
-    @post = Post.get(id)
+    @post = session.user ? session.user.posts.get(id) : Post.get(id)
     raise NotFound unless @post
     display @post
   end
@@ -22,13 +22,13 @@ class Posts < Application
 
   def edit(id)
     only_provides :html
-    @post = Post.get(id)
+    @post = session.user.posts.get(id)
     raise NotFound unless @post
     display @post
   end
 
   def create(post)
-    @post = Post.new(post)
+    @post = session.user.posts.build(post)
     if @post.save
       redirect resource(@post), :message => {:notice => "Post was successfully created"}
     else

@@ -1,4 +1,4 @@
-%h3= @post.title
+%h3= "#{@post.title} (#{@post.user.first_name})"
 %p= @post.body
 
 = link_to 'Edit',  url(:edit_post,  @post)

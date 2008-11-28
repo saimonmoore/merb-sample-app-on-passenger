@@ -3,6 +3,6 @@
 
 %ol
   - for post in @posts
-    %li= "#{post.title} (#{link_to 'Show', url(:post, post)} | #{link_to 'Edit', url(:edit_post,  post)})"
+    %li= "#{post.user.first_name} - '#{post.title}' (#{link_to 'Show', url(:post, post)} | #{link_to 'Edit', url(:edit_post,  post)})"
 
 = link_to 'New', url(:new_post)
