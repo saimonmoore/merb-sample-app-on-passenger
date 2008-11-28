@@ -1,5 +1,6 @@
 --- 
 - merb-core (= 1.0.3, runtime)
+- merb-gen (= 1.0.3, runtime)
 - extlib (>= 0.9.8, runtime)
 - erubis (>= 2.6.2, runtime)
 - rake (>= 0, runtime)
