@@ -3,8 +3,8 @@ class Post
   
   property :id, Serial
   
-  property :body, Text
-  property :title, String
+  property :body, Text, :nullable => false
+  property :title, String, :nullable => false
 
   property :created_at, DateTime  
   property :updated_at, DateTime
@@ -12,7 +12,8 @@ class Post
   property :updated_on, Date
 
   belongs_to :user
-  
-  validates_present :title
-  validates_present :body
+
+  # No need for these, as they are implicit due to the nullable option  
+  # validates_present :title
+  # validates_present :body
 end
