@@ -1,0 +1,15 @@
+---
+# This is a sample database file for the DataMapper ORM
+:development: &defaults
+  :adapter: mysql
+  :database: hello_merb_dev
+  :username: webtypes
+  :password: webtypes01
+
+:test:
+  <<: *defaults
+  :database: hello_merb_test
+
+:production:
+  <<: *defaults
+  :database: hello_merb_production
