@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper.rb')
 given "a post exists" do
   Post.all.destroy!
   request(resource(:posts), :method => "POST", 
-    :params => { :post => { :id => nil }})
+    :params => { :post => { :title => 'bla', :body => 'bla bla' }})
 end
 
 describe "resource(:posts)" do
@@ -18,8 +18,7 @@ describe "resource(:posts)" do
     end
 
     it "contains a list of posts" do
-      pending
-      @response.should have_xpath("//ul")
+      @response.should have_xpath("//ol")
     end
     
   end
@@ -30,8 +29,7 @@ describe "resource(:posts)" do
     end
     
     it "has a list of posts" do
-      pending
-      @response.should have_xpath("//ul/li")
+      @response.should have_xpath("//ol/li")
     end
   end
   
@@ -39,7 +37,7 @@ describe "resource(:posts)" do
     before(:each) do
       Post.all.destroy!
       @response = request(resource(:posts), :method => "POST", 
-        :params => { :post => { :id => nil }})
+        :params => { :post => { :title => 'bla', :body => 'bla bla' }})
     end
     
     it "redirects to resource(:posts)" do
@@ -98,7 +96,7 @@ describe "resource(@post)", :given => "a post exists" do
     before(:each) do
       @post = Post.first
       @response = request(resource(@post), :method => "PUT", 
-        :params => { :post => {:id => @post.id} })
+        :params => { :post => {:id => @post.id, :title => 'blas', :body => 'blas blas'} })
     end
   
     it "redirect to the article show action" do

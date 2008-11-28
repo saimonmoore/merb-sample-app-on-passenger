@@ -1,16 +1,8 @@
-%h1
-  Posts controller, index action
-%p
-  Edit this file in
-  %tt
-    app/views/posts/index.html.erb
-%table
-  %tr
+%h3
+  All my Posts
+
+%ol
   - for post in @posts
-    %tr
-      %td
-        = link_to 'Show', url(:post, post)
-      %td
-        = link_to 'Edit', url(:edit_post,  post)
+    %li= "#{post.title} (#{link_to 'Show', url(:post, post)} | #{link_to 'Edit', url(:edit_post,  post)})"
 
 = link_to 'New', url(:new_post)
