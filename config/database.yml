@@ -2,7 +2,7 @@
 # This is a sample database file for the DataMapper ORM
 :development: &defaults
   :adapter: mysql
-  :database: hello_merb_dev
+  :database: hello_merb_development
   :username: webtypes
   :password: webtypes01
 
