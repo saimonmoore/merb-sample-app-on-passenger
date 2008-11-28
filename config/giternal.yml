@@ -1,0 +1,3 @@
+haml:
+  repo: git://github.com/nex3/haml.git
+  path: gems
