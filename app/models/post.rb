@@ -12,4 +12,7 @@ class Post
   property :updated_on, Date
 
   belongs_to :user
+  
+  validates_present :title
+  validates_present :body
 end

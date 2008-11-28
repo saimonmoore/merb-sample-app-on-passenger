@@ -15,7 +15,6 @@ Merb.start_environment(:testing => true, :adapter => 'runner', :environment => E
 
 DataMapper.auto_migrate!
 
-
 Spec::Runner.configure do |config|
   config.include(Merb::Test::ViewHelper)
   config.include(Merb::Test::RouteHelper)
