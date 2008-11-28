@@ -2,6 +2,7 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper.rb')
 
 given "a post exists" do
   Post.all.destroy!
+  login
   request(resource(:posts), :method => "POST", 
     :params => { :post => { :title => 'bla', :body => 'bla bla' }})
 end
@@ -36,6 +37,7 @@ describe "resource(:posts)" do
   describe "a successful POST" do
     before(:each) do
       Post.all.destroy!
+      login
       @response = request(resource(:posts), :method => "POST", 
         :params => { :post => { :title => 'bla', :body => 'bla bla' }})
     end
@@ -50,6 +52,7 @@ end
 describe "resource(@post)" do 
   describe "a successful DELETE", :given => "a post exists" do
      before(:each) do
+       login
        @response = request(resource(Post.first), :method => "DELETE")
      end
 
@@ -62,6 +65,7 @@ end
 
 describe "resource(:posts, :new)" do
   before(:each) do
+    login
     @response = request(resource(:posts, :new))
   end
   
@@ -72,6 +76,7 @@ end
 
 describe "resource(@post, :edit)", :given => "a post exists" do
   before(:each) do
+    login
     @response = request(resource(Post.first, :edit))
   end
   
@@ -94,6 +99,7 @@ describe "resource(@post)", :given => "a post exists" do
   
   describe "PUT" do
     before(:each) do
+      login
       @post = Post.first
       @response = request(resource(@post), :method => "PUT", 
         :params => { :post => {:id => @post.id, :title => 'blas', :body => 'blas blas'} })

@@ -1,5 +1,7 @@
 class Posts < Application
   # provides :xml, :yaml, :js
+  
+  before :ensure_authenticated, :exclude => [:index, :show]
 
   def index
     @posts = Post.all

@@ -37,3 +37,25 @@ Spec::Runner.configure do |config|
     end
   end
 end
+
+
+Merb::Test.add_helpers do
+ 
+  def create_default_user
+    unless User.first(:login => "saimon")
+      User.create(:login => "saimon", :password => "secret", :password_confirmation => "secret") or raise "can't create user'"
+    end
+  end
+ 
+  def login
+    create_default_user
+    request("/login", {
+      :method => "PUT",
+      :params => {
+        :login => "saimon",
+        :password => "secret"
+      }
+    })
+  end
+ 
+end
