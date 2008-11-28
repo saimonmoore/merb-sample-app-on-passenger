@@ -23,7 +23,6 @@ dependency "dm-timestamps", dm_gems_version
 dependency "dm-types", dm_gems_version        
 dependency "dm-validations", dm_gems_version  
 
-dependency "addressable",  "2.0.0"
-dependency "data_objects", "0.9.9"
-dependency "ext_lib",      "0.9.8"
-dependency "do-mysql",     "0.9.9"
+# My depedencies
+# dependency "do-mysql", "0.9.9"
+# dependency "haml",     "2.1.0"
