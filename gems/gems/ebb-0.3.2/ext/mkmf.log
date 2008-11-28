@@ -1,0 +1,74 @@
+package configuration for gnutls is not found
+have_header: checking for sys/select.h... -------------------- yes
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <sys/select.h>
+/* end */
+
+--------------------
+
+have_header: checking for poll.h... -------------------- yes
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <poll.h>
+/* end */
+
+--------------------
+
+have_header: checking for sys/epoll.h... -------------------- no
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+conftest.c:1:23: error: sys/epoll.h: No such file or directory
+checked program was:
+/* begin */
+1: #include <sys/epoll.h>
+/* end */
+
+--------------------
+
+have_header: checking for sys/event.h... -------------------- yes
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <sys/event.h>
+/* end */
+
+--------------------
+
+have_header: checking for sys/queue.h... -------------------- yes
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <sys/queue.h>
+/* end */
+
+--------------------
+
+have_header: checking for port.h... -------------------- no
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+conftest.c:1:18: error: port.h: No such file or directory
+checked program was:
+/* begin */
+1: #include <port.h>
+/* end */
+
+--------------------
+
+have_header: checking for sys/inotify.h... -------------------- no
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+conftest.c:1:25: error: sys/inotify.h: No such file or directory
+checked program was:
+/* begin */
+1: #include <sys/inotify.h>
+/* end */
+
+--------------------
+

@@ -1,0 +1,76 @@
+have_header: checking for sys/event.h... -------------------- yes
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <sys/event.h>
+/* end */
+
+--------------------
+
+have_header: checking for sys/queue.h... -------------------- yes
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <sys/queue.h>
+/* end */
+
+--------------------
+
+have_library: checking for main() in -lssl... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common conftest.c  -L"." -L"/opt/local/lib" -L. -L/opt/local/lib     -lruby-static -lssl  -lpthread -ldl -lobjc  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))main; return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for main() in -lcrypto... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common conftest.c  -L"." -L"/opt/local/lib" -L. -L/opt/local/lib    -lssl  -lruby-static -lcrypto -lssl  -lpthread -ldl -lobjc  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))main; return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for main() in -lC... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common conftest.c  -L"." -L"/opt/local/lib" -L. -L/opt/local/lib    -lcrypto -lssl  -lruby-static -lC -lcrypto -lssl  -lpthread -ldl -lobjc  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))main; return 0; }
+/* end */
+
+--------------------
+
+have_header: checking for openssl/ssl.h... -------------------- yes
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <openssl/ssl.h>
+/* end */
+
+--------------------
+
+have_header: checking for openssl/err.h... -------------------- yes
+
+"gcc -E -I. -I/opt/local/lib/ruby/1.8/i686-darwin9.1.0 -I. -I/opt/local/include -O2  -fno-common -pipe -fno-common  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <openssl/err.h>
+/* end */
+
+--------------------
+
