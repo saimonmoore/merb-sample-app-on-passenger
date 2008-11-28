@@ -1,4 +1,5 @@
 class Posts < Application
+  before :ensure_authenticated, :exclude => [:index, :show]
   # provides :xml, :yaml, :js
 
   def index
