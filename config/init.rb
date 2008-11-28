@@ -14,8 +14,6 @@ Merb::Config.use do |c|
   c[:session_secret_key]  = '9e1a711d805e1c37e98bd08c8c079630f7b13644'  # required for cookie session store
   c[:session_id_key] = '_hello_merb_session_id' # cookie session id key, defaults to "_session_id"
 end
-
-Merb::Slices::config[:merb_auth_slice_password][:layout] = :application
  
 Merb::BootLoader.before_app_loads do
   # This will get executed after dependencies have been loaded but before your app's classes have loaded.
