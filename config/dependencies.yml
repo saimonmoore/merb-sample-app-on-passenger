@@ -30,3 +30,5 @@
 - dm-timestamps (>= 0.9.7, runtime)   
 - dm-types (>= 0.9.7, runtime)        
 - dm-validations (>= 0.9.7, runtime)
+
+- mongrel (>= 1.1.4, runtime)
