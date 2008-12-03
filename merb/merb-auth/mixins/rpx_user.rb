@@ -42,9 +42,9 @@ class Merb::Authentication
       
       
       module ClassMethods
-        
-        def authenticate_via_rpx!(token, &block)
-          rpx_data = RpxClient.new(Merb::Config[:rpx_api_key], token) if token && !token.empty?
+
+        def authenticate_via_rpx!(api_key, token, &block)
+          rpx_data = RpxClient.new(api_key, token).data if token && !token.empty?
           rpx_data ||= {}
           status = rpx_data['stat']
           if status && status == 'ok'

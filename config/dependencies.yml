@@ -13,6 +13,7 @@
 - mongrel (>= 1.1.4, runtime)
 - ebb (>= 0.3.2, runtime)
 - thin (>= 1.0.0, runtime)
+- mocha (>= 0.9.3, runtime)
 
 - merb_datamapper (>= 1.0.3, runtime) #Note the underscore
 - merb-action-args (>= 1.0.3, runtime)

@@ -7,7 +7,7 @@ class RpxClient < Net::HTTP
   attr_accessor :data
   RPX_URL = 'https://rpxnow.com/api/v2/auth_info/'
   def initialize(api_key, token)
-    url = URI.parse(RPX_URL) + "?apiKey=#{apiKey}&token=#{token}"
+    url = URI.parse(RPX_URL) + "?apiKey=#{api_key}&token=#{token}"
     super(url.host, url.port)
     self.use_ssl = true
     response = nil

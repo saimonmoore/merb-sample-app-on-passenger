@@ -20,6 +20,8 @@ Spec::Runner.configure do |config|
   config.include(Merb::Test::RouteHelper)
   config.include(Merb::Test::ControllerHelper)
   
+  config.mock_with :mocha
+  
   config.after(:each) do
     repository(:default) do
       while repository.adapter.current_transaction

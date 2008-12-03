@@ -13,10 +13,11 @@ class Merb::Authentication
           
         end # self.extended
         
-        def self.find_or_create_by_identity_url(identity_url)
-          @u = first(:identity_url => identity_url)
-          @u ||= self.class.new(:identity_url => identity_url)
-          @u.save(:rpx)
+        def find_or_create_by_identity_url(identity_url)
+          user = first(:identity_url => identity_url)
+          user ||= self.new(:identity_url => identity_url)
+          user.save(:rpx)
+          user
         end
       end # DMClassMethods      
     end # RpxUser
