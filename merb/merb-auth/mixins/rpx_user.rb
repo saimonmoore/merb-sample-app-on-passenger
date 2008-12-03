@@ -1,4 +1,4 @@
-require 'rpx_client'
+require File.join(File.expand_path(File.dirname(__FILE__)), ".." ,"rpx_client")
 
 class Merb::Authentication
   module Mixins
@@ -44,7 +44,7 @@ class Merb::Authentication
       module ClassMethods
         
         def authenticate_via_rpx!(token, &block)
-          rpx_data = RPXClient.new(Merb::Config[:rpx_api_key], token) if token && !token.empty?
+          rpx_data = RpxClient.new(Merb::Config[:rpx_api_key], token) if token && !token.empty?
           rpx_data ||= {}
           status = rpx_data['stat']
           if status && status == 'ok'

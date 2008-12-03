@@ -3,7 +3,7 @@ require 'net/https'
 require 'uri'
 require 'timeout'
 
-class RPXClient < Net::HTTP
+class RpxClient < Net::HTTP
   attr_accessor :data
   RPX_URL = 'https://rpxnow.com/api/v2/auth_info/'
   def initialize(api_key, token)

@@ -25,7 +25,7 @@ describe "An Rpx User" do
   end
   
   def default_user_params
-    {:first_name => "fred", :identity_url: => "http://fred.example.com"}
+    {:first_name => "fred", :identity_url => "http://fred.example.com"}
   end
   
   it "should have tests"

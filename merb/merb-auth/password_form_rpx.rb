@@ -46,7 +46,7 @@ class Merb::Authentication
         
           def handle_rpx_call(rpx_token)
             user = nil
-            user_class.authenticate_via_rpx!(rpx_token, &block) do |user_or_data|
+            user_class.authenticate_via_rpx!(rpx_token) do |user_or_data|
               case user_or_data
                 when user_class
                   user = user_or_data
