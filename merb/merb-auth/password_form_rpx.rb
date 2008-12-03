@@ -39,7 +39,7 @@ class Merb::Authentication
         end
         
         def rpx_token_param
-          @rpx_token_param ||= Base.rpx_token_param
+          @rpx_token_param ||= self.class.rpx_token_param
         end
         
         private
@@ -55,7 +55,7 @@ class Merb::Authentication
                   request.session.authentication.errors.clear!
                   request.session.authentication.errors.add(:general, rpx_error_message)
                   if logger
-                    logger.error "[RPXNow] Unable to authenticate with supplied token: Remote answered: #{rpx_data['err']} (#{rpx_data.inspect})"
+                    logger.error "[RPXNow] Unable to authenticate with supplied token: Reason: #{rpx_data['err']} (#{rpx_data.inspect})"
                   end
               end
             end

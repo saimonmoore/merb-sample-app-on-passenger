@@ -44,21 +44,21 @@ class Merb::Authentication
       module ClassMethods
 
         def authenticate_via_rpx!(api_key, token, &block)
-          rpx_data = RpxClient.new(api_key, token).data if token && !token.empty?
-          rpx_data ||= {}
-          status = rpx_data['stat']
-          if status && status == 'ok'
-            # Successfully authenticated. Find or create the user and return it.
-            user = self.find_or_create_by_identity_url(rpx_data['profile']['identifier'])
-            unless user.first_name
-              user.first_name = rpx_data['profile']['displayName'] || rpx_data['profile']['preferredUsername']
-              user.save
-            end
-            block.call(user)
-          else
-            block.call(rpx_data)
+          unless (api_key && !api_key.empty?) && (token && !token.empty?)
+            msg = "[RPX] Missing api_key and/or token!!!" 
+            logger.error(msg) if logger
+            raise RpxException.new(nil, {"err" => { "msg" => msg}, "stat" => "fail"}), msg
           end
-          
+
+          rpx_client = RpxClient.new(api_key)
+          rpx_data = rpx_client.auth_info(token) if token && !token.empty?
+
+          # Successfully authenticated. Find or create the user and return it.
+          user = self.find_or_create_by_identity_url(rpx_data['identifier'])
+          unless user.first_name
+            user.first_name = rpx_data['displayName'] || rpx_data['preferredUsername'] || nil
+            user.save
+          end
           # {
           #   "profile": {
           #     "preferredUsername": "brian",
@@ -68,6 +68,10 @@ class Merb::Authentication
           #   },
           #   "stat": "ok"
           # }          
+          
+          block.call(user)
+        rescue RpxException => rpxe
+          block.call(rpxe.error_data ? rpxe.error_data : {"err" => { "msg" => rpxe.http_response}, "stat" => "fail"})
         end
         
       end    

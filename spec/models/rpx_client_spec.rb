@@ -1,14 +1,15 @@
 require File.join( File.dirname(__FILE__), '..', 'spec_helper' )
 require File.join(File.expand_path(File.dirname(__FILE__)), "..", ".." ,"merb", "merb-auth", "rpx_client")
+require 'net/http'
 
 describe "The RpxClient" do
   
   before(:all) do
-    RpxClient.any_instance.stubs(:get_response).returns('')
+    Net::HTTP.any_instance.stubs(:post).returns('')
   end
       
   def good_rpx_response
-    %q{
+    msg = %q{
       {
         "profile": {
           "preferredUsername": "brian",
@@ -17,12 +18,13 @@ describe "The RpxClient" do
           "identifier": "http:\/\/brian.myopenid.com\/"
         },
         "stat": "ok"
-      }      
+      } 
     }.strip
+    Struct.new(:code, :body).new('200', msg)
   end
   
   def bad_rpx_response
-    %q{
+    msg = %q{
       {
         "err": {
           "msg": "Data not found",
@@ -31,14 +33,16 @@ describe "The RpxClient" do
         "stat": "fail"
       }
     }.strip
+    
+    Struct.new(:code, :body).new('200', msg)
   end
   
   it "should convert response from json to a hash" do
-    RpxClient.any_instance.expects(:get_response).returns(good_rpx_response)
-    rpx_client.data.should be_a_kind_of(Hash)
+    Net::HTTP.any_instance.expects(:post).returns(good_rpx_response)
+    rpx_client.auth_info('sometoken').should be_a_kind_of(Hash)
   end
     
   def rpx_client
-    RpxClient.new('someapikey', 'sometoken')
+    RpxClient.new('someapikey')
   end
 end

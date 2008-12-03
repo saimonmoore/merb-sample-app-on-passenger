@@ -18,7 +18,7 @@ describe "An Rpx User" do
     # end
     # RpxUser.auto_migrate!
     
-    RpxClient.any_instance.stubs(:get_response).returns('')
+    Net::HTTP.any_instance.stubs(:post).returns('')
   end
   
   after(:each) do
@@ -30,7 +30,7 @@ describe "An Rpx User" do
   end
   
   def good_rpx_response
-    %q{
+    msg = %q{
       {
         "profile": {
           "preferredUsername": "brian",
@@ -39,12 +39,13 @@ describe "An Rpx User" do
           "identifier": "http:\/\/brian.myopenid.com\/"
         },
         "stat": "ok"
-      }      
+      } 
     }.strip
+    Struct.new(:code, :body).new('200', msg)
   end
   
   def bad_rpx_response
-    %q{
+    msg = %q{
       {
         "err": {
           "msg": "Data not found",
@@ -53,6 +54,8 @@ describe "An Rpx User" do
         "stat": "fail"
       }
     }.strip
+    
+    Struct.new(:code, :body).new('200', msg)
   end
     
   before(:each) do
@@ -64,7 +67,7 @@ describe "An Rpx User" do
   end
   
   it "should authenticate by returning a user object in a block given rpxnow successfully authenticates the user" do
-    RpxClient.any_instance.expects(:get_response).returns(good_rpx_response)
+    Net::HTTP.any_instance.expects(:post).returns(good_rpx_response)
     User.authenticate_via_rpx!('someapitoken', 'sometoken') do |user|      
       user.should_not be_nil
       user.should be_a_kind_of(User)      
@@ -72,7 +75,7 @@ describe "An Rpx User" do
   end
   
   it "should create a new user from responses identifier if none existant given rpxnow successfully authenticates the user" do
-    RpxClient.any_instance.expects(:get_response).returns(good_rpx_response)
+    Net::HTTP.any_instance.expects(:post).returns(good_rpx_response)
     User.first(:identity_url => 'http://brian.myopenid.com/').should be_nil
     User.authenticate_via_rpx!('someapitoken', 'sometoken') do |user|
       user.new_record?.should be_false
@@ -81,7 +84,7 @@ describe "An Rpx User" do
   end
   
   it "should only return the exisiting user given rpxnow successfully authenticates the user" do
-    RpxClient.any_instance.expects(:get_response).returns(good_rpx_response)
+    Net::HTTP.any_instance.expects(:post).returns(good_rpx_response)
     existing_user = User.new(:identity_url => 'http://brian.myopenid.com/')
     existing_user.save(:rpx).should be_true
     User.expects(:new).never
@@ -92,7 +95,7 @@ describe "An Rpx User" do
   end
   
   it "should not authenticate given rpxnow did not authenticate the user" do
-    RpxClient.any_instance.expects(:get_response).returns(bad_rpx_response)
+    Net::HTTP.any_instance.expects(:post).returns(bad_rpx_response)
     User.authenticate_via_rpx!('someapitoken', 'sometoken') do |error_message|
       error_message.should be_a_kind_of(Hash)
       error_message['stat'].should == 'fail'

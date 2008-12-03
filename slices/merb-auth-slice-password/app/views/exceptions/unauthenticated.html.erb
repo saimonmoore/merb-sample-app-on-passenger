@@ -5,7 +5,13 @@
   <%= error_messages_for session.authentication %>
   <% @login_param = Merb::Authentication::Strategies::Basic::Base.login_param %>
   <% @password_param = Merb::Authentication::Strategies::Basic::Base.password_param %>
-  
+  <p>
+    Sign in to Hello Merb via the usual form or 
+    <a class="rpxnow" onclick="return false;" href="https://hellomerb.rpxnow.com/openid/v2/signin?token_url=<%= site_domain(:cgi_escape) %>">
+      sign in
+    </a>
+    with your Google, Yahoo, AOL or other OpenID account.
+  </p>
 	<form action="<%= slice_url(:merb_auth_slice_password, :perform_login) %>" method="POST" accept-charset="utf-8">
 	  <input type="hidden" name="_method" value="PUT" />
 	  <div class="formRow">
@@ -21,6 +27,10 @@
 		
 </div>
 
-<iframe src="https://hello-merb-local.rpxnow.com/openid/embed?token_url=<%= CGI.escape(request.host) %>"
-  scrolling="no" frameBorder="no" style="width:400px;height:240px;">
-</iframe>
+<script src="https://rpxnow.com/openid/v2/widget" type="text/javascript"></script>
+<script type="text/javascript">
+  RPXNOW.token_url = "<%= site_domain(:js_escape) %>";
+  
+  RPXNOW.realm = "hellomerb";
+  RPXNOW.overlay = true;
+</script>
