@@ -43,20 +43,30 @@ class Merb::Authentication
       
       module ClassMethods
 
+        # TODO: As is this assumes one openid per user
+        # This means that existing users with multiple accounts (.e.g. a local account +  a google account)
+        # will have multiple local accounts (one for each account they log in with).
+        # We can map multiple accounts to the same user by sending a map request to rpx, which will return the primary key mapped to the openid account.
+        # This means that a single user can have multiple openids.
+        # This means that once successfully authenticated via rpx, we need to redirect them to a page
+        # where we ask them if they already have an account on the site and wether they wish to map it to this openid.
+        # If so, we don't create another user but ask them to authenticate via login/password or another existing openid, then map them and sign them in.
+        # If not (i.e. new on the site), we create a new user, map it to their openid.
         def authenticate_via_rpx!(api_key, token, &block)
           unless (api_key && !api_key.empty?) && (token && !token.empty?)
             msg = "[RPX] Missing api_key and/or token!!!" 
-            logger.error(msg) if logger
+            Merb.logger.error(msg) if Merb.logger
             raise RpxException.new(nil, {"err" => { "msg" => msg}, "stat" => "fail"}), msg
           end
 
           rpx_client = RpxClient.new(api_key)
           rpx_data = rpx_client.auth_info(token) if token && !token.empty?
-          logger.info "[RPX] Successfully authenticated via rpx: #{rpx_data.inspect}"
+          Merb.logger.info "[RPX] Successfully authenticated via rpx: #{rpx_data.inspect}" if Merb.logger
           # Successfully authenticated. Find or create the user and return it.
           user = self.find_or_create_by_identity_url(rpx_data['identifier'])
           unless user.first_name
             user.first_name = rpx_data['displayName'] || rpx_data['preferredUsername'] || nil
+            # TODO: If we don't have at least the name, we should redirect them to the signup form so that they can fill in their name
             user.save(:rpx)
           end
           # {
