@@ -52,12 +52,12 @@ class Merb::Authentication
 
           rpx_client = RpxClient.new(api_key)
           rpx_data = rpx_client.auth_info(token) if token && !token.empty?
-
+          logger.info "[RPX] Successfully authenticated via rpx: #{rpx_data.inspect}"
           # Successfully authenticated. Find or create the user and return it.
           user = self.find_or_create_by_identity_url(rpx_data['identifier'])
           unless user.first_name
             user.first_name = rpx_data['displayName'] || rpx_data['preferredUsername'] || nil
-            user.save
+            user.save(:rpx)
           end
           # {
           #   "profile": {
