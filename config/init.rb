@@ -13,6 +13,7 @@ Merb::Config.use do |c|
   # cookie session store configuration
   c[:session_secret_key]  = '9e1a711d805e1c37e98bd08c8c079630f7b13644'  # required for cookie session store
   c[:session_id_key] = '_hello_merb_session_id' # cookie session id key, defaults to "_session_id"
+  c[:rpx_api_key] = '5ab432e30e471d774183d72edc91a693939bc43e'
 end
  
 Merb::BootLoader.before_app_loads do
