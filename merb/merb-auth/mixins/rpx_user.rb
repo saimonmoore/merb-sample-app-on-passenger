@@ -1,43 +1,40 @@
-require "digest/sha1"
-require File.expand_path(File.dirname(__FILE__) / "..") / "strategies" / "abstract_password"
+require 'rpx_client'
 
 class Merb::Authentication
   module Mixins
-    # This mixin provides basic salted user password encryption.
+    # This mixin provides authentication via rpxnow for a user.
     # 
     # Added properties:
-    #  :crypted_password, String
-    #  :salt,             String
+    #  :indentity_url, String
     #
     # To use it simply require it and include it into your user class.
     #
     # class User
-    #   include Merb::Authentication::Mixins::SaltedUser
+    #   include Merb::Authentication::Mixins::RpxUser
     #
     # end
     #
-    module SaltedUser
+    module RpxUser
       
       def self.included(base)
-        base.class_eval do 
-          attr_accessor :password, :password_confirmation
+        base.class_eval do
           
-          include Merb::Authentication::Mixins::SaltedUser::InstanceMethods
-          extend  Merb::Authentication::Mixins::SaltedUser::ClassMethods
+          include Merb::Authentication::Mixins::RpxUser::InstanceMethods
+          extend  Merb::Authentication::Mixins::RpxUser::ClassMethods
           
-          path = File.expand_path(File.dirname(__FILE__)) / "salted_user"
+          path = File.expand_path(File.dirname(__FILE__)) / "rpx_user"
           if defined?(DataMapper) && DataMapper::Resource > self
-            require path / "dm_salted_user"
-            extend(Merb::Authentication::Mixins::SaltedUser::DMClassMethods)
+            require path / "dm_rpx_user"
+            extend(Merb::Authentication::Mixins::RpxUser::DMClassMethods)
           elsif defined?(ActiveRecord) && ancestors.include?(ActiveRecord::Base)
-            require path / "ar_salted_user"
-            extend(Merb::Authentication::Mixins::SaltedUser::ARClassMethods)
+            require path / "ar_rpx_user"
+            extend(Merb::Authentication::Mixins::RpxUser::ARClassMethods)
           elsif defined?(Sequel) && ancestors.include?(Sequel::Model)
-            require path / "sq_salted_user"
-            extend(Merb::Authentication::Mixins::SaltedUser::SQClassMethods)
+            require path / "sq_rpx_user"
+            extend(Merb::Authentication::Mixins::RpxUser::SQClassMethods)
           elsif defined?(RelaxDB) && ancestors.include?(RelaxDB::Document)
-            require path / "relaxdb_salted_user"
-            extend(Merb::Authentication::Mixins::SaltedUser::RDBClassMethods)
+            require path / "relaxdb_rpx_user"
+            extend(Merb::Authentication::Mixins::RpxUser::RDBClassMethods)
           end
           
         end # base.class_eval
@@ -45,34 +42,40 @@ class Merb::Authentication
       
       
       module ClassMethods
-        # Encrypts some data with the salt.
-        def encrypt(password, salt)
-          Digest::SHA1.hexdigest("--#{salt}--#{password}--")
+        
+        def authenticate_via_rpx!(token, &block)
+          rpx_data = RPXClient.new(Merb::Config[:rpx_api_key], token) if token && !token.empty?
+          rpx_data ||= {}
+          status = rpx_data['stat']
+          if status && status == 'ok'
+            # Successfully authenticated. Find or create the user and return it.
+            user = self.find_or_create_by_identity_url(rpx_data['profile']['identifier'])
+            unless user.first_name
+              user.first_name = rpx_data['profile']['displayName'] || rpx_data['profile']['preferredUsername']
+              user.save
+            end
+            block.call(user)
+          else
+            block.call(rpx_data)
+          end
+          
+          # {
+          #   "profile": {
+          #     "preferredUsername": "brian",
+          #     "displayName": "brian",
+          #     "url": "http:\/\/brian.myopenid.com\/",
+          #     "identifier": "http:\/\/brian.myopenid.com\/"
+          #   },
+          #   "stat": "ok"
+          # }          
         end
+        
       end    
       
       module InstanceMethods
-        def authenticated?(password)
-          crypted_password == encrypt(password)
-        end
-        
-        def encrypt(password)
-          self.class.encrypt(password, salt)
-        end
-        
-        def password_required?
-          crypted_password.blank? || !password.blank?
-        end
-        
-        def encrypt_password
-          return if password.blank?
-          self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{Merb::Authentication::Strategies::Basic::Base.login_param}--") if new_record?
-          self.crypted_password = encrypt(password)
-        end
         
       end # InstanceMethods
       
-    end # SaltedUser    
+    end # RpxUser
   end # Mixins
 end # Merb::Authentication
-

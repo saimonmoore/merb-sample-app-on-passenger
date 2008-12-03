@@ -15,7 +15,10 @@ begin
   
   # Mixin the salted user mixin
   require 'merb-auth-more/mixins/salted_user'
+  require 'rpx_client'
+  require 'mixins/rpx_user'
   Merb::Authentication.user_class.class_eval{ include Merb::Authentication::Mixins::SaltedUser }
+  Merb::Authentication.user_class.class_eval{ include Merb::Authentication::Mixins::RpxUser }
     
   # Setup the session serialization
   class Merb::Authentication
